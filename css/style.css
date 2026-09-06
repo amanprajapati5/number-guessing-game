@@ -1,0 +1,411 @@
+   /* COLOR THEME
+   Two themes are defined as CSS variables. Dark mode overrides them
+   using [data-theme="dark"] on the <html> element.
+    */
+
+   :root {
+     --bg: #f4f6f7;
+     --surface: #ffffff;
+     --border: #d8dde1;
+     --text: #20262b;
+     --text-muted: #5b6570;
+
+     --accent: #1f6f78;
+     --accent-hover: #195960;
+     --accent-contrast: #ffffff;
+
+     --success: #2e7d46;
+     --error: #b3261e;
+     --warning: #b3791f;
+
+     --radius: 6px;
+     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+     --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+   }
+
+   [data-theme="dark"] {
+     --bg: #14181b;
+     --surface: #1d2226;
+     --border: #323a40;
+     --text: #e7eaec;
+     --text-muted: #9aa5ac;
+
+     --accent: #3fa5a8;
+     --accent-hover: #57b9bc;
+     --accent-contrast: #0f1315;
+
+     --success: #4caf63;
+     --error: #e5675f;
+     --warning: #d9a857;
+   }
+
+   /*  RESET & BASE */
+
+   * {
+     box-sizing: border-box;
+   }
+
+   body {
+     margin: 0;
+     background: var(--bg);
+     color: var(--text);
+     font-family: var(--font-sans);
+     line-height: 1.5;
+     /* Colors change instantly would feel jarring when toggling theme */
+     transition: background-color 0.2s ease, color 0.2s ease;
+   }
+
+   h1,
+   h2 {
+     margin: 0;
+   }
+
+   p {
+     margin: 0 0 1rem;
+   }
+
+   button {
+     font-family: inherit;
+   }
+
+   /* Consistent, visible focus state for keyboard users */
+   a:focus-visible,
+   button:focus-visible,
+   input:focus-visible {
+     outline: 2px solid var(--accent);
+     outline-offset: 2px;
+   }
+
+   .hidden {
+     display: none;
+   }
+
+   /*  HEADER */
+
+   .site-header {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     max-width: 520px;
+     margin: 0 auto;
+     padding: 1.5rem 1.25rem 0.5rem;
+   }
+
+   .site-header h1 {
+     font-size: 1.35rem;
+   }
+
+   #theme-toggle {
+     background: var(--surface);
+     border: 1px solid var(--border);
+     border-radius: var(--radius);
+     width: 2.25rem;
+     height: 2.25rem;
+     font-size: 1.1rem;
+     cursor: pointer;
+     transition: border-color 0.15s ease;
+   }
+
+   #theme-toggle:hover {
+     border-color: var(--accent);
+   }
+
+   /*  LAYOUT */
+
+   main {
+     max-width: 520px;
+     margin: 0 auto;
+     padding: 1rem 1.25rem 3rem;
+   }
+
+   .screen {
+     background: var(--surface);
+     border: 1px solid var(--border);
+     border-radius: var(--radius);
+     padding: 1.75rem;
+   }
+
+   /*  FORMS (shared by start form and guess form) */
+
+   .form-group {
+     margin-bottom: 1.25rem;
+     border: none;
+     padding: 0;
+   }
+
+   label {
+     display: block;
+     margin-bottom: 0.4rem;
+     font-weight: 600;
+     font-size: 0.9rem;
+   }
+
+   legend {
+     font-weight: 600;
+     font-size: 0.9rem;
+     padding: 0;
+     margin-bottom: 0.6rem;
+   }
+
+   input[type="text"],
+   input[type="number"] {
+     width: 100%;
+     padding: 0.65rem 0.75rem;
+     font-size: 1rem;
+     border: 1px solid var(--border);
+     border-radius: var(--radius);
+     background: var(--bg);
+     color: var(--text);
+   }
+
+   /* Removes the spinner arrows so the guess input looks intentional, not default */
+   input[type="number"]::-webkit-inner-spin-button,
+   input[type="number"]::-webkit-outer-spin-button {
+     -webkit-appearance: none;
+     appearance: none;
+     margin: 0;
+   }
+
+   input[type="number"] {
+     -moz-appearance: textfield;
+     appearance: textfield;
+   }
+
+   .error-message {
+     color: var(--error);
+     font-size: 0.85rem;
+     margin: 0.4rem 0 0;
+     min-height: 1.1rem;
+   }
+
+   /* Difficulty selector */
+
+   .difficulty-options {
+     display: flex;
+     flex-direction: column;
+     gap: 0.6rem;
+   }
+
+   .difficulty-option {
+     display: flex;
+     align-items: baseline;
+     gap: 0.6rem;
+     border: 1px solid var(--border);
+     border-radius: var(--radius);
+     padding: 0.7rem 0.85rem;
+     cursor: pointer;
+     font-weight: 400;
+     margin: 0;
+     transition: border-color 0.15s ease;
+   }
+
+   .difficulty-option:hover {
+     border-color: var(--accent);
+   }
+
+   /* Highlights the whole row when its radio button is checked */
+   .difficulty-option:has(input:checked) {
+     border-color: var(--accent);
+     background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+   }
+
+   .difficulty-label {
+     font-weight: 600;
+   }
+
+   .difficulty-detail {
+     color: var(--text-muted);
+     font-size: 0.85rem;
+   }
+
+   /*  BUTTONS */
+
+   .btn {
+     border: none;
+     border-radius: var(--radius);
+     padding: 0.7rem 1.4rem;
+     font-size: 1rem;
+     font-weight: 600;
+     cursor: pointer;
+     transition: background-color 0.15s ease, transform 0.08s ease;
+   }
+
+   .btn-primary {
+     background: var(--accent);
+     color: var(--accent-contrast);
+     width: 100%;
+   }
+
+   .btn-primary:hover {
+     background: var(--accent-hover);
+   }
+
+   /* Small tactile press feedback */
+   .btn:active {
+     transform: scale(0.98);
+   }
+
+   /*  STATS (start screen + end screen) */
+
+   .stats-box {
+     margin-top: 1.75rem;
+     padding-top: 1.5rem;
+     border-top: 1px solid var(--border);
+   }
+
+   .stats-box h2 {
+     font-size: 1rem;
+     margin-bottom: 0.9rem;
+   }
+
+   .stats-grid,
+   .end-stats {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     gap: 0.9rem;
+   }
+
+   .end-stats {
+     margin: 1.25rem 0 1.5rem;
+   }
+
+   .stat {
+     display: flex;
+     flex-direction: column;
+     gap: 0.2rem;
+   }
+
+   .stat-value {
+     font-family: var(--font-mono);
+     font-size: 1.4rem;
+     font-weight: 600;
+   }
+
+   .stat-label {
+     color: var(--text-muted);
+     font-size: 0.8rem;
+   }
+
+   /*  GAME SCREEN */
+
+   .game-info {
+     margin-bottom: 1.25rem;
+   }
+
+   .range-display {
+     color: var(--text-muted);
+   }
+
+   .game-stats-bar {
+     display: flex;
+     justify-content: space-between;
+     border: 1px solid var(--border);
+     border-radius: var(--radius);
+     padding: 0.9rem 1rem;
+     margin-bottom: 1.5rem;
+   }
+
+   .game-stat {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 0.2rem;
+   }
+
+   .game-stat-label {
+     color: var(--text-muted);
+     font-size: 0.75rem;
+   }
+
+   .game-stat-value {
+     font-family: var(--font-mono);
+     font-size: 1.25rem;
+     font-weight: 600;
+   }
+
+   /* Timer turns warning-colored and gently pulses in the final seconds */
+   #timer-display.timer-warning {
+     color: var(--warning);
+     animation: pulse 1s ease-in-out infinite;
+   }
+
+   @keyframes pulse {
+
+     0%,
+     100% {
+       opacity: 1;
+     }
+
+     50% {
+       opacity: 0.55;
+     }
+   }
+
+   .feedback-message {
+     margin-top: 1.25rem;
+     min-height: 1.4rem;
+     font-weight: 600;
+   }
+
+   .feedback-message.feedback-correct {
+     color: var(--success);
+   }
+
+   .feedback-message.feedback-hint {
+     color: var(--text);
+   }
+
+   .feedback-message.feedback-error {
+     color: var(--error);
+   }
+
+   /*  END SCREEN */
+
+   #end-title {
+     margin-bottom: 0.5rem;
+   }
+
+   /*  RESPONSIVE */
+
+   /* Tablet and up: give the game a bit more breathing room and lay
+   difficulty options out side by side instead of stacked */
+   @media (min-width: 600px) {
+     .screen {
+       padding: 2.25rem;
+     }
+
+     .difficulty-options {
+       flex-direction: row;
+     }
+
+     .difficulty-option {
+       flex: 1;
+       flex-direction: column;
+       align-items: flex-start;
+     }
+   }
+
+   /* Small phones: tighten up padding so nothing feels cramped */
+   @media (max-width: 360px) {
+     main {
+       padding: 1rem 0.85rem 2rem;
+     }
+
+     .screen {
+       padding: 1.25rem;
+     }
+
+     .stats-grid,
+     .end-stats {
+       grid-template-columns: 1fr 1fr;
+       gap: 0.7rem;
+     }
+   }
+
+   /* Respect reduced motion preference */
+   @media (prefers-reduced-motion: reduce) {
+     * {
+       animation: none !important;
+       transition: none !important;
+     }
+   }

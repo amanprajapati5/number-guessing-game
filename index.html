@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Guessing Game</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1>Number Guessing Game</h1>
+    <button id="theme-toggle" type="button" aria-label="Switch to dark mode">
+      🌙
+    </button>
+  </header>
+
+  <main>
+
+    <!-- START SCREEN  -->
+    <section id="start-screen" class="screen">
+      <p class="game-description">
+        Think of a number, but I'll think of it first. Guess it before the timer runs out —
+        the harder the difficulty, the bigger the range and the less time you get.
+      </p>
+
+      <form id="start-form">
+        <div class="form-group">
+          <label for="player-name">Your name</label>
+          <input type="text" id="player-name" name="player-name" placeholder="Enter your name" maxlength="20"
+            autocomplete="off">
+          <p class="error-message" id="name-error"></p>
+        </div>
+
+        <fieldset class="form-group">
+          <legend>Difficulty</legend>
+
+          <div class="difficulty-options">
+            <label class="difficulty-option">
+              <input type="radio" name="difficulty" value="easy" checked>
+              <span class="difficulty-label">Easy</span>
+              <span class="difficulty-detail">1–50 · 60 seconds</span>
+            </label>
+
+            <label class="difficulty-option">
+              <input type="radio" name="difficulty" value="medium">
+              <span class="difficulty-label">Medium</span>
+              <span class="difficulty-detail">1–100 · 45 seconds</span>
+            </label>
+
+            <label class="difficulty-option">
+              <input type="radio" name="difficulty" value="hard">
+              <span class="difficulty-label">Hard</span>
+              <span class="difficulty-detail">1–500 · 30 seconds</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">Start Game</button>
+      </form>
+
+      <div class="stats-box" id="stats-box">
+        <h2>Your Stats</h2>
+        <div class="stats-grid">
+          <div class="stat">
+            <span class="stat-value" id="stat-high-score">0</span>
+            <span class="stat-label">High Score</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-games-played">0</span>
+            <span class="stat-label">Games Played</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-win-rate">0%</span>
+            <span class="stat-label">Win Rate</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-streak">0</span>
+            <span class="stat-label">Current Streak</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME SCREEN  -->
+    <section id="game-screen" class="screen hidden">
+      <div class="game-info">
+        <p id="greeting"></p>
+        <p id="range-display" class="range-display"></p>
+      </div>
+
+      <div class="game-stats-bar">
+        <div class="game-stat">
+          <span class="game-stat-label">Time Left</span>
+          <span id="timer-display" class="game-stat-value">--</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-label">Attempts</span>
+          <span id="attempts-display" class="game-stat-value">0</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-label">Streak</span>
+          <span id="streak-display" class="game-stat-value">0</span>
+        </div>
+      </div>
+
+      <form id="guess-form">
+        <div class="form-group">
+          <label for="guess-input">Your guess</label>
+          <input type="number" id="guess-input" name="guess" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary">Guess</button>
+      </form>
+
+      <p id="feedback-message" class="feedback-message" aria-live="polite"></p>
+    </section>
+
+    <!-- END SCREEN -->
+    <section id="end-screen" class="screen hidden">
+      <h2 id="end-title"></h2>
+      <p id="end-message"></p>
+
+      <div class="end-stats">
+        <div class="stat">
+          <span class="stat-value" id="end-score">0</span>
+          <span class="stat-label">Score</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="end-high-score">0</span>
+          <span class="stat-label">High Score</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="end-streak">0</span>
+          <span class="stat-label">Streak</span>
+        </div>
+      </div>
+
+      <button id="play-again-btn" class="btn btn-primary" type="button">Play Again</button>
+    </section>
+
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>
