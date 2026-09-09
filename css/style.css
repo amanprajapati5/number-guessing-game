@@ -136,11 +136,11 @@
    }
 
    label {
-     display: block;
-     margin-bottom: 0.4rem;
-     font-weight: 600;
-     font-size: 0.9rem;
-   }
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
 
    legend {
      font-weight: 600;
@@ -149,16 +149,24 @@
      margin-bottom: 0.6rem;
    }
 
+   input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
    input[type="text"],
-   input[type="number"] {
-     width: 100%;
-     padding: 0.65rem 0.75rem;
-     font-size: 1rem;
-     border: 1px solid var(--border);
-     border-radius: var(--radius);
-     background: var(--bg);
-     color: var(--text);
-   }
+input[type="number"] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
    /* Removes the spinner arrows so the guess input looks intentional, not default */
    input[type="number"]::-webkit-inner-spin-button,
@@ -189,26 +197,33 @@
    }
 
    .difficulty-option {
-     display: flex;
-     align-items: baseline;
-     gap: 0.6rem;
-     border: 1px solid var(--border);
-     border-radius: var(--radius);
-     padding: 0.7rem 0.85rem;
-     cursor: pointer;
-     font-weight: 400;
-     margin: 0;
-     transition: border-color 0.15s ease;
-   }
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 0.9rem;
+  cursor: pointer;
+  font-weight: 400;
+  margin: 0;
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+    transform 0.1s ease;
+}
 
    .difficulty-option:hover {
-     border-color: var(--accent);
-   }
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.difficulty-option input[type="radio"] {
+  accent-color: var(--accent);
+}
 
    /* Highlights the whole row when its radio button is checked */
    .difficulty-option:has(input:checked) {
      border-color: var(--accent);
      background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+       box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 12%, transparent);
    }
 
    .difficulty-label {
@@ -223,16 +238,17 @@
    /*  BUTTONS */
 
    .btn {
-     border: none;
-     border-radius: var(--radius);
-     padding: 0.7rem 1.4rem;
-     font-size: 1rem;
-     font-weight: 600;
-     cursor: pointer;
-     transition: background-color 0.15s ease, transform 0.08s ease;
-   }
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease,
+    box-shadow 0.2s ease;
+}
 
-   .btn-primary {
+  .btn-primary {
   background: var(--accent);
   color: var(--accent-contrast);
   width: 100%;
@@ -242,6 +258,7 @@
    .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
    /* Small tactile press feedback */
