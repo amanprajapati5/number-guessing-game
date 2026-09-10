@@ -357,7 +357,7 @@ input[type="number"] {
    /* Timer turns warning-colored and gently pulses in the final seconds */
    #timer-display.timer-warning {
      color: var(--warning);
-     animation: pulse 1s ease-in-out infinite;
+     animation: pulse 0.8s ease-in-out infinite;
    }
 
    @keyframes pulse {
@@ -373,22 +373,62 @@ input[type="number"] {
    }
 
    .feedback-message {
-     margin-top: 1.25rem;
-     min-height: 1.4rem;
-     font-weight: 600;
-   }
+  margin-top: 1.25rem;
+  min-height: 1.4rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s ease;
+  animation: feedbackPop 0.2s ease;
+}
 
-   .feedback-message.feedback-correct {
-     color: var(--success);
-   }
+.feedback-message.feedback-correct {
+  color: var(--success);
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 8%, transparent);
+  animation: successPulse 0.3s ease;
+}
 
    .feedback-message.feedback-hint {
-     color: var(--text);
-   }
+  color: var(--text);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
 
    .feedback-message.feedback-error {
-     color: var(--error);
-   }
+  color: var(--error);
+  border-color: var(--error);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  animation: errorShake 0.3s ease;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes feedbackPop {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
    /*  END SCREEN */
 
@@ -417,6 +457,42 @@ input[type="number"] {
    }
 
    /* Small phones: tighten up padding so nothing feels cramped */
+   @media (max-width: 599px) {
+  main {
+    padding: 0 0.75rem;
+  }
+
+  .screen {
+    padding: 1.25rem;
+  }
+
+    .btn {
+    min-height: 44px;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    min-height: 44px;
+  }
+
+    .game-stats {
+    gap: 0.5rem;
+    padding: 0.65rem;
+  }
+
+  .game-stats .stat {
+    padding: 0.5rem 0.25rem;
+  }
+
+    .difficulty-option {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .difficulty-option input[type="radio"] {
+    flex-shrink: 0;
+  }
+}
+
    @media (max-width: 360px) {
      main {
        padding: 1rem 0.85rem 2rem;
@@ -431,12 +507,69 @@ input[type="number"] {
        grid-template-columns: 1fr 1fr;
        gap: 0.7rem;
      }
+
+       .screen {
+    padding: 1rem;
+  }
+
+  .game-stats {
+    gap: 0.25rem;
+  }
+
+  .game-stats .stat {
+    padding: 0.4rem 0.15rem;
+  }
+
+  .stat-value {
+    font-size: 0.95rem;
+  }
    }
 
    /* Respect reduced motion preference */
-   @media (prefers-reduced-motion: reduce) {
-     * {
-       animation: none !important;
-       transition: none !important;
-     }
-   }
+  @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+   @keyframes errorShake {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-3px);
+  }
+
+  50% {
+    transform: translateX(3px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes resultReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#end-screen {
+  animation: resultReveal 0.3s ease;
+}
