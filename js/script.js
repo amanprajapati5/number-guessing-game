@@ -22,12 +22,14 @@ const nameErrorEl = document.getElementById("name-error");
 const guessForm = document.getElementById("guess-form");
 const guessInput = document.getElementById("guess-input");
 
+
 const greetingEl = document.getElementById("greeting");
 const rangeDisplayEl = document.getElementById("range-display");
 const timerDisplayEl = document.getElementById("timer-display");
 const attemptsDisplayEl = document.getElementById("attempts-display");
 const streakDisplayEl = document.getElementById("streak-display");
 const feedbackMessageEl = document.getElementById("feedback-message");
+const guessHistoryListEl = document.getElementById("guess-history-list");
 
 const endTitleEl = document.getElementById("end-title");
 const endMessageEl = document.getElementById("end-message");
@@ -37,6 +39,7 @@ const endStreakEl = document.getElementById("end-streak");
 const playAgainBtn = document.getElementById("play-again-btn");
 
 const themeToggleBtn = document.getElementById("theme-toggle");
+const resetStatsButton = document.getElementById("reset-stats-btn");
 
 const statHighScoreEl = document.getElementById("stat-high-score");
 const statGamesPlayedEl = document.getElementById("stat-games-played");
@@ -112,9 +115,12 @@ function startGame(event) {
   secretNumber = generateSecretNumber(minNumber, maxNumber);
 
   // Reset everything from any previous round
-  attempts = 0;
-  previousGuesses = [];
-  gameActive = true;
+// Reset everything from any previous round
+attempts = 0;
+previousGuesses = [];
+gameActive = true;
+
+updateGuessHistory();
 
   greetingEl.textContent = `Good luck, ${playerName}!`;
   rangeDisplayEl.textContent = `Guess a number between ${minNumber} and ${maxNumber}.`;
@@ -158,6 +164,16 @@ function updateTimerDisplay() {
   timerDisplayEl.classList.toggle("timer-warning", timeLeft <= 10 && timeLeft > 0);
 }
 
+function updateGuessHistory() {
+  guessHistoryListEl.innerHTML = "";
+
+  previousGuesses.forEach((guess) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = guess;
+    guessHistoryListEl.appendChild(listItem);
+  });
+}
+
 
 // HANDLING A GUESS
 
@@ -189,6 +205,16 @@ function showFeedback(message, type) {
   feedbackMessageEl.className = `feedback-message feedback-${type}`;
 }
 
+function updateGuessHistory() {
+  guessHistoryListEl.innerHTML = "";
+
+  previousGuesses.forEach((guess) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = guess;
+    guessHistoryListEl.appendChild(listItem);
+  });
+}
+
 function handleGuess(event) {
   event.preventDefault();
 
@@ -207,6 +233,7 @@ function handleGuess(event) {
 
   const guess = Number(rawValue);
   previousGuesses.push(guess);
+  updateGuessHistory();
   attempts++;
   attemptsDisplayEl.textContent = attempts;
 
@@ -342,13 +369,29 @@ function toggleTheme() {
   localStorage.setItem(THEME_KEY, newTheme);
 }
 
+function resetStats() {
+  const confirmed = confirm(
+    "Are you sure you want to reset all statistics?"
+  );
 
+  if (!confirmed) {
+    return;
+  }
+
+  localStorage.removeItem(STATS_KEY);
+
+  const stats = loadStats();
+
+  currentStreak = 0;
+  updateStatsDisplay(stats);
+}
 // INIT
 
 startForm.addEventListener("submit", startGame);
 guessForm.addEventListener("submit", handleGuess);
 playAgainBtn.addEventListener("click", () => showScreen(startScreen));
 themeToggleBtn.addEventListener("click", toggleTheme);
+resetStatsButton.addEventListener("click", resetStats);
 
 applyTheme(getInitialTheme());
 
